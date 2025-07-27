@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Header from "../components/Header"
 
 export default function Login() {
@@ -6,6 +7,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
+  const navigate = useNavigate()
 
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -24,9 +26,17 @@ export default function Login() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Login failed")
+
+      // Save user data to localStorage
+      localStorage.setItem("user", JSON.stringify(data))
+
       setSuccess("Login successful! Redirecting...")
       setForm({ email: "", password: "" })
-      // TODO: Handle redirect or token saving here
+
+      // Role-based redirect
+      if (data.role === "admin") navigate("/dashboard/admin")
+      else if (data.role === "agent") navigate("/dashboard/agent")
+      else navigate("/dashboard/user")
     } catch (err) {
       setError(err.message)
     } finally {
