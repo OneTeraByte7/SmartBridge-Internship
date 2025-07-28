@@ -34,9 +34,10 @@ export default function Login() {
       setForm({ email: "", password: "" })
 
       // Role-based redirect
-      if (data.role === "admin") navigate("/dashboard/admin")
-      else if (data.role === "agent") navigate("/dashboard/agent")
+      if (data.user.role === "admin") navigate("/dashboard/admin")
+      else if (data.user.role === "agent") navigate("/dashboard/agent")
       else navigate("/dashboard/user")
+
     } catch (err) {
       setError(err.message)
     } finally {
