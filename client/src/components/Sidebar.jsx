@@ -21,9 +21,9 @@ export default function Sidebar({ role }) {
       { to: "/dashboard/admin/assign-agents", label: "Assign Agents", icon: <AiOutlineTeam size={20} /> },
     ],
     agent: [
-      { to: "/dashboard/agent", label: "Agent Home", icon: <AiOutlineHome size={20} /> },
-      { to: "/dashboard/agent/tasks", label: "My Tasks", icon: <AiOutlineUnorderedList size={20} /> },
-      { to: "/dashboard/agent/profile", label: "Profile", icon: <AiOutlineProfile size={20} /> },
+      { to: "/dashboard/agent/agent", label: "Agent", icon: <AiOutlineHome size={20} /> },
+      { to: "/dashboard/agent/assigned-complaints", label: "Complaints", icon: <AiOutlineUnorderedList size={20} /> },
+      { to: "/dashboard/agent/resolution-history", label: "Resolution Status", icon: <AiOutlineProfile size={20} /> },
     ],
     user: [
       { to: "/dashboard/user/user-home", label: "User Home", icon: <AiOutlineHome size={20} /> },

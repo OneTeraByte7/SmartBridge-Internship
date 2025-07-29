@@ -3,7 +3,7 @@ import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import DashboardUser from "./pages/user/DashboardUser"
-import DashboardAgent from "./pages/DashboardAgent"
+import DashboardAgent from "./pages/agent/DashboardAgent"
 import DashboardAdmin from "./pages/admin/DashboardAdmin"
 
 
@@ -17,7 +17,7 @@ export default function App() {
 
         {/* Dashboards */}
         <Route path="/dashboard/user/*" element={<DashboardUser />} />
-        <Route path="/dashboard/agent" element={<DashboardAgent />} />
+        <Route path="/dashboard/agent/*" element={<DashboardAgent />} />
         <Route path="/dashboard/admin/*" element={<DashboardAdmin />} />
       </Routes>
     </BrowserRouter>
