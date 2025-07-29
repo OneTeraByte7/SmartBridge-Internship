@@ -27,8 +27,8 @@ export default function Sidebar({ role }) {
     ],
     user: [
       { to: "/dashboard/user/user-home", label: "User Home", icon: <AiOutlineHome size={20} /> },
-      { to: "/dashboard/user/submit-complaint", label: "My Orders", icon: <AiOutlineUnorderedList size={20} /> },
-      { to: "/dashboard/user/complaint-history", label: "Profile", icon: <AiOutlineProfile size={20} /> },
+      { to: "/dashboard/user/submit-complaint", label: "Submit Complaint", icon: <AiOutlineUnorderedList size={20} /> },
+      { to: "/dashboard/user/complaint-history", label: "History", icon: <AiOutlineProfile size={20} /> },
     ],
   }
 
