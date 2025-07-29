@@ -24,20 +24,29 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       })
+
       const data = await res.json()
+
       if (!res.ok) throw new Error(data.error || "Login failed")
 
-      // Save user data to localStorage
-      localStorage.setItem("user", JSON.stringify(data))
+      // Save token and user info separately
+      localStorage.setItem("token", data.token)
+      localStorage.setItem("user", JSON.stringify(data.user))
 
       setSuccess("Login successful! Redirecting...")
       setForm({ email: "", password: "" })
 
       // Role-based redirect
-      if (data.user.role === "admin") navigate("/dashboard/admin")
-      else if (data.user.role === "agent") navigate("/dashboard/agent")
-      else navigate("/dashboard/user")
-
+      switch (data.user.role) {
+        case "admin":
+          navigate("/dashboard/admin")
+          break
+        case "agent":
+          navigate("/dashboard/agent")
+          break
+        default:
+          navigate("/dashboard/user")
+      }
     } catch (err) {
       setError(err.message)
     } finally {
