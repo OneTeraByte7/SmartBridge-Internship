@@ -1,4 +1,4 @@
-import Header from "../components/Header"
+import Header from "../../components/Sidebar"
 
 export default function DashboardUser() {
   return (

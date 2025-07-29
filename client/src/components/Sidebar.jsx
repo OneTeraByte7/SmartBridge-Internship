@@ -16,9 +16,9 @@ export default function Sidebar({ role }) {
   // Define dashboard links by role with icons
   const links = {
     admin: [
-      { to: "/dashboard/admin", label: "All Users", icon: <AiOutlineUser size={20} /> },
-      { to: "/dashboard/admin/users", label: "All Complaints", icon: <AiOutlineUnorderedList size={20} /> },
-      { to: "/dashboard/admin/settings", label: "Assign Agents", icon: <AiOutlineTeam size={20} /> },
+      { to: "/dashboard/admin/users", label: "All Users", icon: <AiOutlineUser size={20} /> },
+      { to: "/dashboard/admin/complaints", label: "All Complaints", icon: <AiOutlineUnorderedList size={20} /> },
+      { to: "/dashboard/admin/assign-agents", label: "Assign Agents", icon: <AiOutlineTeam size={20} /> },
     ],
     agent: [
       { to: "/dashboard/agent", label: "Agent Home", icon: <AiOutlineHome size={20} /> },
