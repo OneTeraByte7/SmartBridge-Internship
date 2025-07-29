@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
-
+const complaintRoutes = require('./routes/complaint') 
 const app = express()
 
 // CORS Middleware — restrict to your frontend origin
@@ -25,6 +25,8 @@ mongoose.connect(process.env.MONGO_URI, {
 // API Routes
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api', require('./routes/middleware'))
+app.use("/api/complaint", require('./routes/complaint'))
+
 
 
 // Health check route
