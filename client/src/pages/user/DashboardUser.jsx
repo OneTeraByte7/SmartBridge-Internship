@@ -1,22 +1,22 @@
-import Header from "../../components/Sidebar"
+import { Routes, Route} from "react-router-dom"
+import Sidebar from "../../components/Sidebar"
+import SubmitComplaint from "./SubmitComplaint"
+import UserHome from "./UserHome"
+import ComplaintHistory from "./ComplaintHistory"
 
 export default function DashboardUser() {
   return (
-    <>
-      <Header />
-      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white p-10">
-        <h1 className="text-4xl font-bold mb-6">User Dashboard</h1>
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="bg-white/10 p-6 rounded-lg shadow-lg backdrop-blur-lg">
-            <h2 className="text-xl font-semibold mb-2">Submit Complaint</h2>
-            <p className="text-sm">Raise a new complaint and track your previous submissions.</p>
-          </div>
-          <div className="bg-white/10 p-6 rounded-lg shadow-lg backdrop-blur-lg">
-            <h2 className="text-xl font-semibold mb-2">Complaint History</h2>
-            <p className="text-sm">View and track the status of all complaints filed.</p>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white">
+      <Sidebar role="user" />
+      <main className="flex-1 p-10">
+        <h1 className="text-4xl font-bold mb-8">User Dashboard</h1>
+        <Routes>
+          <Route path="user-home" element={<UserHome />} />
+          <Route path="submit-complaint" element={<SubmitComplaint />} />
+          <Route path="complaint-history" element={<ComplaintHistory />} />
+          <Route path="*" element={<h2 className="text-xl">Page Not Found</h2>} />
+        </Routes>
+      </main>
+    </div>
   )
 }

@@ -16,7 +16,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* Dashboards */}
-        <Route path="/dashboard/user" element={<DashboardUser />} />
+        <Route path="/dashboard/user/*" element={<DashboardUser />} />
         <Route path="/dashboard/agent" element={<DashboardAgent />} />
         <Route path="/dashboard/admin/*" element={<DashboardAdmin />} />
       </Routes>
