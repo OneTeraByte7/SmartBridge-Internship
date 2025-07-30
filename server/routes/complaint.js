@@ -135,5 +135,79 @@ router.patch("/:complaintId/assign", authMiddleware, async (req, res) => {
   }
 });
 
+router.patch("/:complaintId/update", authMiddleware, async (req, res) => {
+  try {
+    const { complaintId } = req.params;
+    const { status, comment } = req.body;
+
+    if (!status && !comment) {
+      return res.status(400).json({ error: "Status or comment required to update." });
+    }
+
+    // Fetch complaint
+    const complaint = await Complaint.findById(complaintId);
+    if (!complaint) {
+      return res.status(404).json({ error: "Complaint not found." });
+    }
+
+    // Authorization: only assigned agent or admin can update
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    const isAssignedAgent = complaint.assignedAgent?.toString() === userId;
+    if (!isAssignedAgent && userRole !== "admin") {
+      return res.status(403).json({ error: "Access denied. Only assigned agent or admin can update." });
+    }
+
+    // Update status if provided
+    if (status) complaint.status = status;
+
+    // Add comment if provided
+    if (comment && comment.trim().length > 0) {
+      if (!complaint.comments) complaint.comments = [];
+      complaint.comments.push({
+        author: userId,
+        text: comment.trim(),
+        date: new Date(),
+      });
+    }
+
+    await complaint.save();
+
+    // Populate comments' author info and assignedAgent for response
+    await complaint.populate([
+      { path: "comments.author", select: "fullName email" },
+      { path: "assignedAgent", select: "fullName email" },
+      { path: "user", select: "fullName email" },
+    ]);
+
+    res.json({ message: "Complaint updated successfully.", complaint });
+  } catch (err) {
+    console.error("Error updating complaint:", err);
+    res.status(500).json({ error: "Server error." });
+  }
+});
+
+// GET /api/complaint/:id
+router.get("/:id", authMiddleware, async (req, res) => {
+  const complaintId = req.params.id;
+
+  try {
+    const complaint = await Complaint.findById(complaintId)
+      .populate("user", "fullName email")
+      .populate("assignedAgent", "fullName email")
+      .populate("comments.author", "fullName email")
+      .exec();
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    res.status(200).json({ complaint });
+  } catch (err) {
+    console.error("Error fetching complaint:", err);
+    res.status(500).json({ message: "Server error while fetching complaint" });
+  }
+});
 
 module.exports = router;
