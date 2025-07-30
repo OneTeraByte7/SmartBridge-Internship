@@ -26,6 +26,9 @@ app.use('/api/auth', require('./routes/auth'))
 
 // Fix route path to plural to match frontend
 app.use("/api/complaint", require('./routes/complaint'))
+app.use("/api/admin", require('./routes/complaint'));
+app.use("/api/users", require('./routes/complaint'));
+
 
 app.get('/', (req, res) => {
   res.send('API is running...')

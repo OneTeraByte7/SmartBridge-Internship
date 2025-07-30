@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Complaint = require("../models/Complaint")
+const User = require("../models/User"); 
 const authMiddleware = require("../middleware/authMiddleware") // JWT verification
 
 // Submit a new complaint
@@ -55,5 +56,35 @@ router.get("/my", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch complaints" })
   }
 })
+
+
+router.get("/agents", authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ error: "Access denied. Admins only." });
+    }
+
+    const agents = await User.find({ role: "agent" }).select("fullName email role");
+    res.status(200).json({ agents });
+  } catch (err) {
+    console.error("Error fetching agents:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/all", authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    const users = await User.find().select("fullName email role");
+    res.status(200).json({ users });
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 module.exports = router
