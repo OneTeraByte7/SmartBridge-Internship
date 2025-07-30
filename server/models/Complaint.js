@@ -18,7 +18,7 @@ const complaintSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Unassigned", "Assigned", "In Progress", "Resolved", "Rejected"],
+    enum: ["Unassigned", "Assigned", "In Progress", "Resolved"],
     default: "Unassigned",
   },
   assignedTo: {
@@ -26,6 +26,12 @@ const complaintSchema = new mongoose.Schema({
     ref: "User", // ref to an Agent user
     default: null,
   },
+
+  assignedAgent: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User", 
+    default: null },
+
   createdAt: {
     type: Date,
     default: Date.now,

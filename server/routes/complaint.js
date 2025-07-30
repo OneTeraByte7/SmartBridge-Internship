@@ -1,63 +1,70 @@
-const express = require("express")
-const router = express.Router()
-const Complaint = require("../models/Complaint")
-const User = require("../models/User"); 
-const authMiddleware = require("../middleware/authMiddleware") // JWT verification
+const express = require("express");
+const mongoose = require("mongoose"); // <-- Add this import
+const router = express.Router();
+const Complaint = require("../models/Complaint");
+const User = require("../models/User");
+const authMiddleware = require("../middleware/authMiddleware"); // JWT verification
 
 // Submit a new complaint
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { subject, issue } = req.body
+    const { subject, issue } = req.body;
 
     if (!subject || !issue) {
-      return res.status(400).json({ error: "Subject and issue are required" })
+      return res.status(400).json({ error: "Subject and issue are required" });
     }
 
     const complaint = new Complaint({
       user: req.user.id,
       subject,
       issue,
-    })
+    });
 
-    await complaint.save()
-    res.status(201).json({ message: "Complaint submitted", complaint })
+    await complaint.save();
+    res.status(201).json({ message: "Complaint submitted", complaint });
   } catch (err) {
-    res.status(500).json({ error: "Server error" })
+    console.error("Error submitting complaint:", err);
+    res.status(500).json({ error: "Server error" });
   }
-})
+});
 
+// Get complaints (admins/agents see all with assignedAgent populated; users see own complaints)
 router.get("/get", authMiddleware, async (req, res) => {
   try {
     let complaints;
 
     if (req.user.role === "admin" || req.user.role === "agent") {
-      // Admins and agents see all complaints
-      complaints = await Complaint.find().populate("user", "fullName email");
+      complaints = await Complaint.find()
+        .populate("user", "fullName email")
+        .populate("assignedAgent", "fullName email");
     } else {
-      // Regular users see only their complaints
-      complaints = await Complaint.find({ user: req.user.id }).populate("user", "fullName email");
+      complaints = await Complaint.find({ user: req.user.id })
+        .populate("user", "fullName email")
+        .populate("assignedAgent", "fullName email");
     }
 
     res.json({ complaints });
   } catch (err) {
+    console.error("Error fetching complaints:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-
-// GET complaints for the logged-in user
+// Get complaints for logged-in user (sorted newest first)
 router.get("/my", authMiddleware, async (req, res) => {
   try {
-    const userId = new mongoose.Types.ObjectId(req.user.id)
-    const complaints = await Complaint.find({ user: userId }).sort({ createdAt: -1 })
-    res.status(200).json({ complaints })
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+    const complaints = await Complaint.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .populate("assignedAgent", "fullName email");
+    res.status(200).json({ complaints });
   } catch (err) {
-    console.error("Error fetching user's complaints:", err)
-    res.status(500).json({ error: "Failed to fetch complaints" })
+    console.error("Error fetching user's complaints:", err);
+    res.status(500).json({ error: "Failed to fetch complaints" });
   }
-})
+});
 
-
+// Get all agents (admin only)
 router.get("/agents", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -72,6 +79,7 @@ router.get("/agents", authMiddleware, async (req, res) => {
   }
 });
 
+// Get all users (admin only)
 router.get("/all", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -86,5 +94,46 @@ router.get("/all", authMiddleware, async (req, res) => {
   }
 });
 
+// Assign an agent to a complaint (admin only)
+router.patch("/:complaintId/assign", authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ error: "Access denied. Admins only." });
+    }
 
-module.exports = router
+    const { complaintId } = req.params;
+    const { agentId } = req.body;
+
+    if (!agentId) {
+      return res.status(400).json({ error: "Agent ID is required." });
+    }
+
+    // Verify the agent exists and is an agent
+    const agent = await User.findOne({ _id: agentId, role: "agent" });
+    if (!agent) {
+      return res.status(404).json({ error: "Agent not found." });
+    }
+
+    // Update complaint assignment AND status
+    const complaint = await Complaint.findByIdAndUpdate(
+      complaintId,
+      {
+        assignedAgent: agentId,
+        status: "assigned",  // <-- Update status here
+      },
+      { new: true }
+    ).populate("assignedAgent", "fullName email");
+
+    if (!complaint) {
+      return res.status(404).json({ error: "Complaint not found." });
+    }
+
+    res.status(200).json({ message: "Agent assigned and status updated successfully.", complaint });
+  } catch (err) {
+    console.error("Error assigning agent:", err);
+    res.status(500).json({ error: "Server error." });
+  }
+});
+
+
+module.exports = router;
