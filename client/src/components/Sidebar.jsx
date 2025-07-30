@@ -13,7 +13,6 @@ export default function Sidebar({ role }) {
   const [hovered, setHovered] = useState(false)
   const navigate = useNavigate()
 
-  // Define dashboard links by role with icons
   const links = {
     admin: [
       { to: "/dashboard/admin", label: "All Users", icon: <AiOutlineUser size={20} /> },

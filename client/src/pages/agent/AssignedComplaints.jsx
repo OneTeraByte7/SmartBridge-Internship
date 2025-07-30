@@ -7,12 +7,12 @@ export default function AssignedComplaints() {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Track per-complaint status and new comment inputs
+  
   const [statusUpdates, setStatusUpdates] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
-  const [updatingIds, setUpdatingIds] = useState([]); // track updating complaints
+  const [updatingIds, setUpdatingIds] = useState([]); 
 
-  // Helper to decode userId from JWT token (simplified)
+  
   const parseUserIdFromToken = (token) => {
     if (!token) return null;
     try {
@@ -29,7 +29,7 @@ export default function AssignedComplaints() {
       setError(null);
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/complaint/get", {
+        const res = await axios.get("https://smartbridge-internship.onrender.com/api/complaint/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +42,7 @@ export default function AssignedComplaints() {
 
         setComplaints(assigned);
 
-        // Initialize statusUpdates with current statuses
+        
         const initialStatus = {};
         assigned.forEach((c) => {
           initialStatus[c._id] = c.status || "Open";
@@ -68,8 +68,7 @@ export default function AssignedComplaints() {
   };
 
   const handleUpdate = async (complaintId) => {
-    if (updatingIds.includes(complaintId)) return; // avoid double update
-
+    if (updatingIds.includes(complaintId)) return; 
     setUpdatingIds((ids) => [...ids, complaintId]);
 
     try {
@@ -78,7 +77,7 @@ export default function AssignedComplaints() {
       const comment = commentInputs[complaintId] || "";
 
       await axios.patch(
-        `http://localhost:5000/api/complaint/${complaintId}/update`,
+        `https://smartbridge-internship.onrender.com/api/complaint/${complaintId}/update`,
         { status, comment },
         {
           headers: {
@@ -89,14 +88,14 @@ export default function AssignedComplaints() {
 
       alert("Complaint updated successfully!");
 
-      // Optionally refresh complaints or update local state
+      
       setComplaints((prev) =>
         prev.map((c) =>
           c._id === complaintId
             ? {
                 ...c,
                 status,
-                comments: c.comments ? [...c.comments, comment] : [comment], // naive append
+                comments: c.comments ? [...c.comments, comment] : [comment], 
               }
             : c
         )

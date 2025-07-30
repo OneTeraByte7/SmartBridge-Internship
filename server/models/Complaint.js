@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const complaintSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",   // The user who submitted the complaint
+    ref: "User",   
     required: true,
   },
   subject: {
@@ -17,21 +17,21 @@ const complaintSchema = new mongoose.Schema({
     trim: true,
   },
 
-  // Status of the complaint
+  
   status: {
     type: String,
     enum: ["Unassigned", "Assigned", "In Progress", "Resolved"],
     default: "Unassigned",
   },
 
-  // Assigned agent reference (if any)
+  
   assignedAgent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     default: null,
   },
 
-  // Comments array with author and timestamp
+  
   comments: [
     {
       author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -40,7 +40,7 @@ const complaintSchema = new mongoose.Schema({
     },
   ],
 
-  // Status change history: logs status changes with who changed and when
+  
   statusHistory: [
     {
       status: {
@@ -62,20 +62,19 @@ const complaintSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  // Optional resolution date
+  
   resolvedAt: {
     type: Date,
     default: null,
   },
 
-  // Optional feedback from user after resolution
+
   feedback: {
     rating: { type: Number, min: 1, max: 5 },
     comment: String,
   },
 });
 
-// Update `updatedAt` on every save
 complaintSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();

@@ -10,7 +10,7 @@ function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    console.log("Decoded JWT:", decoded) // ⬅️ Check this during debugging
+    console.log("Decoded JWT:", decoded) 
     req.user = {
       id: decoded.id,
       role: decoded.role,

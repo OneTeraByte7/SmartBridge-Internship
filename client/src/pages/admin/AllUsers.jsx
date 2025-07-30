@@ -11,7 +11,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/users/all", {
+      const res = await axios.get("https://smartbridge-internship.onrender.com/api/users/all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

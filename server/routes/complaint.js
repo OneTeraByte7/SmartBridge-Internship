@@ -1,11 +1,11 @@
 const express = require("express");
-const mongoose = require("mongoose"); // <-- Add this import
+const mongoose = require("mongoose"); 
 const router = express.Router();
 const Complaint = require("../models/Complaint");
 const User = require("../models/User");
-const authMiddleware = require("../middleware/authMiddleware"); // JWT verification
+const authMiddleware = require("../middleware/authMiddleware"); 
 
-// Submit a new complaint
+
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const { subject, issue } = req.body;
@@ -28,7 +28,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Get complaints (admins/agents see all with assignedAgent populated; users see own complaints)
+
 router.get("/get", authMiddleware, async (req, res) => {
   try {
     let complaints;
@@ -50,7 +50,7 @@ router.get("/get", authMiddleware, async (req, res) => {
   }
 });
 
-// Get complaints for logged-in user (sorted newest first)
+
 router.get("/my", authMiddleware, async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.user.id);
@@ -64,7 +64,7 @@ router.get("/my", authMiddleware, async (req, res) => {
   }
 });
 
-// Get all agents (admin only)
+
 router.get("/agents", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -79,7 +79,7 @@ router.get("/agents", authMiddleware, async (req, res) => {
   }
 });
 
-// Get all users (admin only)
+
 router.get("/all", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -94,7 +94,7 @@ router.get("/all", authMiddleware, async (req, res) => {
   }
 });
 
-// Assign an agent to a complaint (admin only)
+
 router.patch("/:complaintId/assign", authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -108,18 +108,16 @@ router.patch("/:complaintId/assign", authMiddleware, async (req, res) => {
       return res.status(400).json({ error: "Agent ID is required." });
     }
 
-    // Verify the agent exists and is an agent
     const agent = await User.findOne({ _id: agentId, role: "agent" });
     if (!agent) {
       return res.status(404).json({ error: "Agent not found." });
     }
 
-    // Update complaint assignment AND status
     const complaint = await Complaint.findByIdAndUpdate(
       complaintId,
       {
         assignedAgent: agentId,
-        status: "assigned",  // <-- Update status here
+        status: "assigned", 
       },
       { new: true }
     ).populate("assignedAgent", "fullName email");
@@ -144,13 +142,11 @@ router.patch("/:complaintId/update", authMiddleware, async (req, res) => {
       return res.status(400).json({ error: "Status or comment required to update." });
     }
 
-    // Fetch complaint
     const complaint = await Complaint.findById(complaintId);
     if (!complaint) {
       return res.status(404).json({ error: "Complaint not found." });
     }
 
-    // Authorization: only assigned agent or admin can update
     const userId = req.user.id;
     const userRole = req.user.role;
 
@@ -159,10 +155,8 @@ router.patch("/:complaintId/update", authMiddleware, async (req, res) => {
       return res.status(403).json({ error: "Access denied. Only assigned agent or admin can update." });
     }
 
-    // Update status if provided
     if (status) complaint.status = status;
 
-    // Add comment if provided
     if (comment && comment.trim().length > 0) {
       if (!complaint.comments) complaint.comments = [];
       complaint.comments.push({
@@ -174,7 +168,6 @@ router.patch("/:complaintId/update", authMiddleware, async (req, res) => {
 
     await complaint.save();
 
-    // Populate comments' author info and assignedAgent for response
     await complaint.populate([
       { path: "comments.author", select: "fullName email" },
       { path: "assignedAgent", select: "fullName email" },
@@ -188,7 +181,6 @@ router.patch("/:complaintId/update", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/complaint/:id
 router.get("/:id", authMiddleware, async (req, res) => {
   const complaintId = req.params.id;
 

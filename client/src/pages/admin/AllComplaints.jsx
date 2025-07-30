@@ -19,7 +19,7 @@ export default function AllComplaints() {
           return
         }
 
-        const res = await axios.get("http://localhost:5000/api/complaint/get", {
+        const res = await axios.get("https://smartbridge-internship.onrender.com/api/complaint/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

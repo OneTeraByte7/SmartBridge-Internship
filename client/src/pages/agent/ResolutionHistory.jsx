@@ -18,13 +18,13 @@ export default function ResolvedComplaintsRandom() {
 
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/complaint/get", {
+        const res = await axios.get("https://smartbridge-internship.onrender.com/api/complaint/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // Filter complaints that are resolved
+        
         const resolved = res.data.complaints.filter(c => c.status === "Resolved");
 
         // Shuffle and take NUM_TO_SHOW random complaints

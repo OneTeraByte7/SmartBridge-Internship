@@ -14,14 +14,14 @@ export default function SubmitComplaint() {
 
     const token = localStorage.getItem("token")
     if (!token) {
-      setMessage("❌ Unauthorized: Please log in first.")
+      setMessage("Unauthorized: Please log in first.")
       setLoading(false)
       return
     }
 
     try {
       await axios.post(
-        "http://localhost:5000/api/complaint",
+        "https://smartbridge-internship.onrender.com/api/complaint",
         { subject, issue },
         {
           headers: {
@@ -30,13 +30,13 @@ export default function SubmitComplaint() {
         }
       )
 
-      setMessage("✅ Complaint submitted successfully.")
+      setMessage("Complaint submitted successfully.")
       setSubject("")
       setIssue("")
     } catch (err) {
       console.error("Submit error:", err)
       setMessage(
-        err.response?.data?.error || "❌ Failed to submit complaint."
+        err.response?.data?.error || "Failed to submit complaint."
       )
     } finally {
       setLoading(false)

@@ -4,7 +4,7 @@ import axios from "axios";
 export default function AssignAgents() {
   const [agents, setAgents] = useState([]);
   const [complaints, setComplaints] = useState([]);
-  const [assignments, setAssignments] = useState({}); // { complaintId: selectedAgentId }
+  const [assignments, setAssignments] = useState({}); 
 
   useEffect(() => {
     fetchAgents();
@@ -14,7 +14,7 @@ export default function AssignAgents() {
   const fetchAgents = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:5000/api/complaint/agents", {
+    const res = await axios.get("https://smartbridge-internship.onrender.com/api/complaint/agents", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -29,7 +29,7 @@ export default function AssignAgents() {
   const fetchComplaints = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:5000/api/complaint/get", {
+    const res = await axios.get("https://smartbridge-internship.onrender.com/api/complaint/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +48,7 @@ export default function AssignAgents() {
   try {
     const token = localStorage.getItem("token");
     await axios.patch(
-      `http://localhost:5000/api/complaint/${complaintId}/assign`,
+      `https://smartbridge-internship.onrender.com/api/complaint/${complaintId}/assign`,
       { agentId },
       {
         headers: {

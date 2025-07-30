@@ -12,11 +12,9 @@ if (!JWT_SECRET) {
   process.exit(1)
 }
 
-// Signup Route
 router.post('/signup', async (req, res) => {
   const { fullName, email, password, role } = req.body
 
-  // Basic input validation
   if (!fullName || !email || !password) {
     return res.status(400).json({ error: "Full name, email and password are required" })
   }
@@ -27,12 +25,11 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ error: 'Email already registered' })
     }
 
-    // Password hashing is handled in User schema pre-save hook
     const user = new User({
       fullName: fullName.trim(),
       email: email.toLowerCase().trim(),
       password,
-      role: role || 'user'  // Default to 'user' if role not provided
+      role: role || 'user'  
     })
 
     await user.save()
@@ -44,7 +41,7 @@ router.post('/signup', async (req, res) => {
   }
 })
 
-// Login Route
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
 

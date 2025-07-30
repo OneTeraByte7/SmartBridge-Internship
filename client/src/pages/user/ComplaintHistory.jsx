@@ -10,7 +10,7 @@ export default function ComplaintHistory() {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("No token found");
 
-        const res = await fetch("http://localhost:5000/api/complaint/get", {
+        const res = await fetch("https://smartbridge-internship.onrender.com/api/complaint/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
