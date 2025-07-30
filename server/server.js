@@ -1,48 +1,51 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-require('dotenv').config()
-const complaintRoutes = require('./routes/complaint')
-const app = express()
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+
 
 const allowedOrigins = [
-  'https://smart-bridge-internship.vercel.app',
-  'https://smart-bridge-internship.vercel.app/'
-]
+  'http://localhost:3000',
+  'https://smartbridge-internship.onrender.com',
+  'https://smart-bridge-internship.vercel.app'
+];
+
 
 app.use(cors({
-  origin: 'http://localhost:3000',
-  origin:'https://smartbridge-internship.onrender.com',
-  origin:'https://smart-bridge-internship.vercel.app/',
-  credentials: true,
-}))
+  origin: function (origin, callback) {
+  
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('❌ Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
-app.use(express.json())
+app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err))
+.catch(err => console.error('MongoDB connection error:', err));
 
-app.use('/api/auth', require('./routes/auth'))
-
-// Remove or rename if not a route file
-// app.use('/api', require('./routes/middleware'))
-
-// Fix route path to plural to match frontend
-app.use("/api/complaint", require('./routes/complaint'))
-app.use("/api/admin", require('./routes/complaint'));
-app.use("/api/users", require('./routes/complaint'));
-
-
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/complaint', require('./routes/complaint'));
+app.use('/api/admin', require('./routes/complaint'));   // You can split these if needed
+app.use('/api/users', require('./routes/complaint'));   // Same controller reused?
 
 app.get('/', (req, res) => {
-  res.send('API is running...')
-})
+  res.send('🚀 API is running...');
+});
 
-const PORT = process.env.PORT || 5000
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-})
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
