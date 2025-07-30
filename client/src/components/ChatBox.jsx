@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io("http://localhost:5000"); // change if deployed
+const socket = io("https://smartbridge-internship.onrender.com"); // change if deployed
 
 const ChatBox = ({ currentUserId, assignedUserId }) => {
   const [messages, setMessages] = useState([]);
@@ -51,7 +51,7 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
     socket.emit("sendMessage", msg);
 
     try {
-      await axios.post("/api/chat/send", msg); // Save to DB
+      await axios.post("https://smartbridge-internship.onrender.com/api/chat/send", msg); // Save to DB
     } catch (err) {
       console.error("Error saving message:", err);
     }
