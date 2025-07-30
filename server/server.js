@@ -8,6 +8,7 @@ const app = express()
 app.use(cors({
   origin: 'http://localhost:3000',
   origin:'https://smartbridge-internship.onrender.com',
+  origin:'https://smart-bridge-internship.vercel.app/',
   credentials: true,
 }))
 
