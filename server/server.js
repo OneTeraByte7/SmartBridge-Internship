@@ -5,6 +5,11 @@ require('dotenv').config()
 const complaintRoutes = require('./routes/complaint')
 const app = express()
 
+const allowedOrigins = [
+  'https://smart-bridge-internship.vercel.app',
+  'https://smart-bridge-internship.vercel.app/'
+]
+
 app.use(cors({
   origin: 'http://localhost:3000',
   origin:'https://smartbridge-internship.onrender.com',
