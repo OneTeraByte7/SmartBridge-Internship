@@ -79,7 +79,7 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
         width: "100%",
         maxWidth: "600px",
         borderRadius: "8px",
-        backgroundColor: "#fefefe",
+        backgroundColor: "#080808ff",
       }}
     >
       <div
