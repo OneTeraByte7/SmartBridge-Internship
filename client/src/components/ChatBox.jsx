@@ -3,24 +3,34 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io("https://smartbridge-internship.onrender.com"); // change if deployed
+const socket = io("https://smartbridge-internship.onrender.com"); // change if needed
 
 const ChatBox = ({ currentUserId, assignedUserId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
 
-  // Load chat history
+  // Load chat history from backend
   useEffect(() => {
     if (currentUserId && assignedUserId) {
       axios
         .get(`/api/chat/history/${currentUserId}/${assignedUserId}`)
-        .then((res) => setMessages(res.data))
+        .then((res) => {
+          const data = res.data;
+          if (Array.isArray(data)) {
+            setMessages(data);
+          } else if (Array.isArray(data.history)) {
+            setMessages(data.history); // in case the array is nested
+          } else {
+            console.warn("Unexpected chat history format:", data);
+            setMessages([]);
+          }
+        })
         .catch((err) => console.error("Chat history error:", err));
     }
   }, [currentUserId, assignedUserId]);
 
-  // Connect to socket and listen
+  // Connect to socket and listen for incoming messages
   useEffect(() => {
     socket.emit("join", { userId: currentUserId });
 
@@ -34,7 +44,7 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
     };
   }, [currentUserId]);
 
-  // Auto-scroll
+  // Auto-scroll to bottom on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -61,22 +71,47 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
   };
 
   return (
-    <div className="chat-box" style={{ border: "1px solid #ccc", padding: "1rem", width: "100%", maxWidth: "600px" }}>
-      <div style={{ maxHeight: "300px", overflowY: "auto", marginBottom: "1rem" }}>
-        {messages.map((msg, idx) => (
-          <div key={idx} style={{ textAlign: msg.sender === currentUserId ? "right" : "left", marginBottom: "0.5rem" }}>
-            <span
+    <div
+      className="chat-box"
+      style={{
+        border: "1px solid #ccc",
+        padding: "1rem",
+        width: "100%",
+        maxWidth: "600px",
+        borderRadius: "8px",
+        backgroundColor: "#fefefe",
+      }}
+    >
+      <div
+        style={{
+          maxHeight: "300px",
+          overflowY: "auto",
+          marginBottom: "1rem",
+          paddingRight: "0.5rem",
+        }}
+      >
+        {Array.isArray(messages) &&
+          messages.map((msg, idx) => (
+            <div
+              key={idx}
               style={{
-                display: "inline-block",
-                padding: "0.5rem 1rem",
-                borderRadius: "1rem",
-                backgroundColor: msg.sender === currentUserId ? "#DCF8C6" : "#EEE",
+                textAlign: msg.sender === currentUserId ? "right" : "left",
+                marginBottom: "0.5rem",
               }}
             >
-              {msg.content}
-            </span>
-          </div>
-        ))}
+              <span
+                style={{
+                  display: "inline-block",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                  backgroundColor:
+                    msg.sender === currentUserId ? "#DCF8C6" : "#EEE",
+                }}
+              >
+                {msg.content}
+              </span>
+            </div>
+          ))}
         <div ref={messagesEndRef} />
       </div>
 
@@ -86,9 +121,24 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
           placeholder="Type your message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          style={{ flex: 1, padding: "0.5rem" }}
+          style={{
+            flex: 1,
+            padding: "0.5rem",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
-        <button onClick={sendMessage} style={{ padding: "0.5rem 1rem" }}>
+        <button
+          onClick={sendMessage}
+          style={{
+            padding: "0.5rem 1rem",
+            border: "none",
+            backgroundColor: "#4CAF50",
+            color: "#fff",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
           Send
         </button>
       </div>
