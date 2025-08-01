@@ -113,3 +113,31 @@ cd client
 npm install
 npm start
 ```
+
+---
+
+## 👀 Screenshots:
+
+1. Landing Page
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/3591c593-9303-43f0-afd7-f43ca5bead9c" />
+2. SignUp
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/663bb98a-0b4b-4e88-bfb2-b258e567f87a" />
+3. User Side
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/a2088d78-4cdf-4a3f-ae59-a644608a9728" />
+4. Submit Complaint
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/79c2f084-08d1-472f-bddf-2dfde3dd3221" />
+5. Agent Side
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/8e0a8be8-2e6e-4487-af03-7282e4cd84c2" />
+6. Complaints status
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/46faf7d1-8841-4c0a-bd04-0ea0094b656a" />
+7. Admin Side
+   <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/212dafe1-7889-4b76-8be9-d93b169d14e2" />
+8. All Access
+    <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/dcce6f12-755a-4e66-96c5-fa1d30e0c6b7" />
+9.Chat
+    <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/e37a2bd3-534f-419a-8156-cecfc2aab03b" />
+10. Complaint History
+    <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/0703aa17-c530-4750-ae30-dc2c834efca1" />
+
+
+
