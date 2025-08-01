@@ -15,7 +15,7 @@ export default function DashboardAdmin() {
           <Route path="users" element={<AllUsers />} />
           <Route path="complaints" element={<AllComplaints />} />
           <Route path="assign-agents" element={<AssignAgents />} />
-          <Route path="*" element={<h2 className="text-xl">Page Not Found</h2>} />
+          <Route path="*" element={<h2 className="text-xl">Welcome! Check our Services </h2>} />
         </Routes>
       </main>
     </div>

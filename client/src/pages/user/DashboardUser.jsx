@@ -19,7 +19,7 @@ export default function DashboardUser() {
           <Route path="submit-complaint" element={<SubmitComplaint />} />
           <Route path="complaint-history" element={<ComplaintHistory />} />
           <Route path="chat" element={<ChatWithAgent userId={userId} agentId={agentId} />} />
-          <Route path="*" element={<h2 className="text-xl">Page Not Found</h2>} />
+          <Route path="*" element={<h2 className="text-xl">Welcome! Use Sidebar to Navigate</h2>} />
         </Routes>
       </main>
     </div>

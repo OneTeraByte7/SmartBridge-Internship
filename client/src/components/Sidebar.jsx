@@ -7,6 +7,7 @@ import {
   AiOutlineLogout,
   AiOutlineTeam,
   AiOutlineProfile,
+  AiOutlineWechat,
 } from "react-icons/ai"
 
 export default function Sidebar({ role }) {
@@ -29,7 +30,7 @@ export default function Sidebar({ role }) {
       { to: "/dashboard/user/user-home", label: "User Home", icon: <AiOutlineHome size={20} /> },
       { to: "/dashboard/user/submit-complaint", label: "Submit Complaint", icon: <AiOutlineUnorderedList size={20} /> },
       { to: "/dashboard/user/complaint-history", label: "History", icon: <AiOutlineProfile size={20} /> },
-      { to: "/dashboard/user/chat", label: "Chat", icon: <AiOutlineProfile size={20} /> },
+      { to: "/dashboard/user/chat", label: "Chat", icon: <AiOutlineWechat size={20} /> },
     ],
 
   }
