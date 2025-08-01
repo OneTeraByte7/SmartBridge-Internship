@@ -71,79 +71,83 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
   };
 
   return (
+  <div
+    className="chat-box"
+    style={{
+      border: "1px solid #ccc",
+      padding: "1rem",
+      width: "100%",
+      maxWidth: "600px",
+      borderRadius: "8px",
+      backgroundColor: "#080808", // dark background
+      color: "#fff", // default text color
+    }}
+  >
     <div
-      className="chat-box"
       style={{
-        border: "1px solid #ccc",
-        padding: "1rem",
-        width: "100%",
-        maxWidth: "600px",
-        borderRadius: "8px",
-        backgroundColor: "#080808ff",
+        maxHeight: "300px",
+        overflowY: "auto",
+        marginBottom: "1rem",
+        paddingRight: "0.5rem",
       }}
     >
-      <div
-        style={{
-          maxHeight: "300px",
-          overflowY: "auto",
-          marginBottom: "1rem",
-          paddingRight: "0.5rem",
-        }}
-      >
-        {Array.isArray(messages) &&
-          messages.map((msg, idx) => (
-            <div
-              key={idx}
+      {Array.isArray(messages) &&
+        messages.map((msg, idx) => (
+          <div
+            key={idx}
+            style={{
+              textAlign: msg.sender === currentUserId ? "right" : "left",
+              marginBottom: "0.5rem",
+            }}
+          >
+            <span
               style={{
-                textAlign: msg.sender === currentUserId ? "right" : "left",
-                marginBottom: "0.5rem",
+                display: "inline-block",
+                padding: "0.5rem 1rem",
+                borderRadius: "1rem",
+                backgroundColor:
+                  msg.sender === currentUserId ? "#24199f" : "#333",
+                color: "#fff", // white text for both
               }}
             >
-              <span
-                style={{
-                  display: "inline-block",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "1rem",
-                  backgroundColor:
-                    msg.sender === currentUserId ? "#24199fff" : "#EEE",
-                }}
-              >
-                {msg.content}
-              </span>
-            </div>
-          ))}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <div style={{ display: "flex", gap: "0.5rem" }}>
-        <input
-          type="text"
-          placeholder="Type your message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          style={{
-            flex: 1,
-            padding: "0.5rem",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
-        />
-        <button
-          onClick={sendMessage}
-          style={{
-            padding: "0.5rem 1rem",
-            border: "none",
-            backgroundColor: "#4CAF50",
-            color: "#fff",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Send
-        </button>
-      </div>
+              {msg.content}
+            </span>
+          </div>
+        ))}
+      <div ref={messagesEndRef} />
     </div>
-  );
-};
+
+    <div style={{ display: "flex", gap: "0.5rem" }}>
+      <input
+        type="text"
+        placeholder="Type your message..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        style={{
+          flex: 1,
+          padding: "0.5rem",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          backgroundColor: "#000", // black background
+          color: "#fff", // white text
+        }}
+      />
+      <button
+        onClick={sendMessage}
+        style={{
+          padding: "0.5rem 1rem",
+          border: "none",
+          backgroundColor: "#4CAF50",
+          color: "#fff",
+          borderRadius: "4px",
+          cursor: "pointer",
+        }}
+      >
+        Send
+      </button>
+    </div>
+  </div>
+);
+}
 
 export default ChatBox;
