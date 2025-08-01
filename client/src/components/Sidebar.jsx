@@ -23,12 +23,15 @@ export default function Sidebar({ role }) {
       { to: "/dashboard/agent/agent", label: "Agent", icon: <AiOutlineUser size={20} /> },
       { to: "/dashboard/agent/assigned-complaints", label: "Complaints", icon: <AiOutlineUnorderedList size={20} /> },
       { to: "/dashboard/agent/resolution-history", label: "Resolution Status", icon: <AiOutlineProfile size={20} /> },
+      { to: "/dashboard/agent/chat", label: "Chat", icon: <AiOutlineProfile size={20} /> },
     ],
     user: [
       { to: "/dashboard/user/user-home", label: "User Home", icon: <AiOutlineHome size={20} /> },
       { to: "/dashboard/user/submit-complaint", label: "Submit Complaint", icon: <AiOutlineUnorderedList size={20} /> },
       { to: "/dashboard/user/complaint-history", label: "History", icon: <AiOutlineProfile size={20} /> },
+      { to: "/dashboard/user/chat", label: "Chat", icon: <AiOutlineProfile size={20} /> },
     ],
+
   }
 
   const currentLinks = links[role] || []
