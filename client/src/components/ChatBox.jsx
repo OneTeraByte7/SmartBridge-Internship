@@ -14,7 +14,7 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
   useEffect(() => {
     if (currentUserId && assignedUserId) {
       axios
-        .get(`/api/chat/history/${currentUserId}/${assignedUserId}`)
+        .get(`https://smartbridge-internship.onrender.co/api/chat/history/${currentUserId}/${assignedUserId}`)
         .then((res) => {
           const data = res.data;
           if (Array.isArray(data)) {
