@@ -105,7 +105,7 @@ const ChatBox = ({ currentUserId, assignedUserId }) => {
                   padding: "0.5rem 1rem",
                   borderRadius: "1rem",
                   backgroundColor:
-                    msg.sender === currentUserId ? "#DCF8C6" : "#EEE",
+                    msg.sender === currentUserId ? "#24199fff" : "#EEE",
                 }}
               >
                 {msg.content}
