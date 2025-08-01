@@ -16,7 +16,7 @@ export default function Sidebar({ role }) {
 
   const links = {
     admin: [
-      { to: "/dashboard/admin", label: "All Users", icon: <AiOutlineUser size={20} /> },
+      { to: "/dashboard/admin/users", label: "All Users", icon: <AiOutlineUser size={20} /> },
       { to: "/dashboard/admin/complaints", label: "All Complaints", icon: <AiOutlineUnorderedList size={20} /> },
       { to: "/dashboard/admin/assign-agents", label: "Assign Agents", icon: <AiOutlineTeam size={20} /> },
     ],

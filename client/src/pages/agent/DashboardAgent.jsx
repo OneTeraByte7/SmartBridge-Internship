@@ -20,7 +20,7 @@ export default function DashboardAgent() {
           <Route path="assigned-complaints" element={<AssignedComplaints />} />
           <Route path="resolution-history" element={<ResolutionHistory />} />
           <Route path="chat" element={<ChatWithUser agentId={agentId} userId={assignedUserId} />} />
-          <Route path="*" element={<h2 className="text-xl">Welcome! Have look at your assigned users </h2>} />
+          <Route path="*" element={<h2 className="text-xl">Welcome! Have look at your assigned users</h2>} />
         </Routes>
       </main>
     </div>

@@ -44,9 +44,9 @@ export default function SubmitComplaint() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white">
-      <main className="flex-1 p-10">
-        <h1 className="text-4xl font-bold mb-6">Submit Complaint</h1>
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white justify-center items-center">
+    <main className="p-0 w-full max-w-md text-center">
+    <h1 className="text-4xl font-bold mb-6">Submit Complaint</h1>
         <form
           onSubmit={handleSubmit}
           className="bg-white/10 p-8 rounded-lg shadow-lg backdrop-blur-lg max-w-lg"

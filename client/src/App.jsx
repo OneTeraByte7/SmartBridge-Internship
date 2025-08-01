@@ -5,7 +5,7 @@ import Signup from "./pages/Signup"
 import DashboardUser from "./pages/user/DashboardUser"
 import DashboardAgent from "./pages/agent/DashboardAgent"
 import DashboardAdmin from "./pages/admin/DashboardAdmin"
-
+import ProtectedRoute from "./components/ProtectedRoute" // new import
 
 export default function App() {
   return (
@@ -15,10 +15,31 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Dashboards */}
-        <Route path="/dashboard/user/*" element={<DashboardUser />} />
-        <Route path="/dashboard/agent/*" element={<DashboardAgent />} />
-        <Route path="/dashboard/admin/*" element={<DashboardAdmin />} />
+        {/* Protected Dashboards */}
+        <Route
+          path="/dashboard/user/*"
+          element={
+            <ProtectedRoute>
+              <DashboardUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/agent/*"
+          element={
+            <ProtectedRoute>
+              <DashboardAgent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/admin/*"
+          element={
+            <ProtectedRoute>
+              <DashboardAdmin />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
