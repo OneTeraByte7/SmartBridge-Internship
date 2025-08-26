@@ -1,6 +1,6 @@
 # 🛠️ Complaint Management Portal
 
-A full-stack, role-based complaint resolution system built with **React**, **Node.js**, **Express**, and **MongoDB**, designed to streamline user complaints, admin assignment, and agent resolution — all in real time with proper authorization, authentication, and clean UI/UX design.
+A full-stack, role-based complaint resolution system built with **React**, **Node.js**, **Express**, and **MongoDB**, designed to streamline user complaints, admin assignment, and agent resolution — all in real time with proper authorization, authentication, and clean UI/UX designs.
 
 ---
 
